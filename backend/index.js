@@ -24,10 +24,29 @@ app.use(express.urlencoded({ extended: true }));
 
 //it is very very important 
 //without this I was not able to fetch links in frontend
+// app.use(
+//   cors({
+//     origin: "https://e-waste-frontend-3j12.onrender.com", // React frontend URL
+//     credentials: true, // if using cookies/auth
+//   })
+// );
+
+const allowedOrigins = [
+  "http://localhost:5173", 
+  "https://e-waste-frontend-3j12.onrender.com"
+];
+
 app.use(
   cors({
-    origin: "https://e-waste-frontend-3j12.onrender.com", // React frontend URL
-    credentials: true, // if using cookies/auth
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true); // allow non-browser requests
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
   })
 );
 
