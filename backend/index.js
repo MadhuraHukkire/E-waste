@@ -46,10 +46,15 @@ app.use(
         callback(new Error("Not allowed by CORS"));
       }
     },
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"], // <--- add all methods
+    allowedHeaders: ["Content-Type", "Authorization"], 
+    
     credentials: true,
+    
   })
 );
 
+app.options("*", cors());
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/api/user",userRouter)
