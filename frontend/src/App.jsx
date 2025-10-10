@@ -148,8 +148,8 @@ import ChatbotIcon from "./components/ChatbotIcon.jsx";
 import Chatbot from "./pages/ChatBot.jsx";
 import EWasteTypesIcon from "./components/EWasteTypesIcon.jsx";
 import EWasteTypes from "./pages/EWasteTypes.jsx";
-import { generateToken, messaging } from "./config/firebase.js";
-import { onMessage } from "firebase/messaging";
+// import { generateToken, messaging } from "./config/firebase.js";
+// import { onMessage } from "firebase/messaging";
 import Login from "./pages/Login.jsx";
 import Profile from "./pages/Profile.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
@@ -159,22 +159,22 @@ import AdminRoute from "./components/AdminRoute.jsx";
 import Signup from "./pages/Signup.jsx";
 
 function App() {
-  useEffect(() => {
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker
-        .register('/firebase-messaging-sw.js')
-        .then((registration) => {
-          console.log('Service Worker registered:', registration);
-        })
-        .catch(console.error);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if ('serviceWorker' in navigator) {
+  //     navigator.serviceWorker
+  //       .register('/firebase-messaging-sw.js')
+  //       .then((registration) => {
+  //         console.log('Service Worker registered:', registration);
+  //       })
+  //       .catch(console.error);
+  //   }
+  // }, []);
 
   useEffect(() => {
-    generateToken();
-    onMessage(messaging, (payload) => {
-      console.log("payload🫠", payload);
-    });
+    // generateToken();
+    // onMessage(messaging, (payload) => {
+    //   console.log("payload🫠", payload);
+    // });
   }, []);
 
   return (

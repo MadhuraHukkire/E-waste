@@ -14,8 +14,6 @@ import connectDB from "./config/connectDB.js"
 import userRouter from "./routes/user.route.js"
 import shopRouter from "./routes/shop.route.js"
 import aiRouter from "./routes/messageai.route.js";
-import fcmtokenRouter from "./routes/fcmtoken.route.js";
-import notificationScheduler from "./services/notificationScheduler.js";
 
 // app.use(express.json());
 app.use(cookieParser());
@@ -60,7 +58,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/api/user",userRouter)
 app.use("/api/shops",shopRouter)
 app.use("/api/ai",aiRouter)
-app.use("/api/notification",fcmtokenRouter)
+
 
 
 
