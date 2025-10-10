@@ -26,7 +26,7 @@ app.use(express.urlencoded({ extended: true }));
 //without this I was not able to fetch links in frontend
 app.use(
   cors({
-    origin: "http://localhost:5173", // React frontend URL
+    origin: "https://e-waste-frontend-3j12.onrender.com", // React frontend URL
     credentials: true, // if using cookies/auth
   })
 );
