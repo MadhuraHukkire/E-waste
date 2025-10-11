@@ -1,6 +1,7 @@
 // backend/controllers/shop.controller.js
 import Shop from "../models/shop.model.js";
 import User from "../models/user.model.js"; // Import User model
+import uploadImageCloudinary from "../utils/uploadImageCloudinary.js";
 // @desc    Create a new shop with images
 // @route   POST /api/shops
 // @access  Admin
@@ -22,7 +23,9 @@ export const addShopController = async (req, res) => {
       return res.status(400).json({ message: "At least one image is required" });
     }
 
-    const imageUrls = req.files.map((file) => `/uploads/${file.filename}`);
+    // const imageUrls = req.files.map((file) => `/uploads/${file.filename}`);
+
+    const upload =  await uploadImageCloudinary(req.files)
 
     // Build location object for MongoDB
     const location = {
@@ -38,7 +41,7 @@ export const addShopController = async (req, res) => {
       email,
       services: services.split(","), // comma-separated string
       rating: rating || 0,
-      images: imageUrls,
+      images: upload,
       createdBy: req.userId // Add the user who created the shop
     });
 
@@ -289,109 +292,7 @@ export const searchShopsController = async (req, res) => {
 };
 
 
-// backend/controllers/shop.controller.js
-// import Shop from "../models/shop.model.js";
 
-
-// Get all pending shops for admin approval
-// export const getPendingShopsController = async (req, res) => {
-//   try {
-//     // Check if user exists and is admin
-//     const user = await User.findById(req.userId);
-//     if (!user) {
-//       return res.status(401).json({ 
-//         message: "User not found", 
-//         success: false, 
-//         error: true 
-//       });
-//     }
-
-//     if (user.role !== 'admin') {
-//       return res.status(403).json({ 
-//         message: "Access denied. Admin privileges required.", 
-//         success: false, 
-//         error: true 
-//       });
-//     }
-
-//     const shops = await Shop.find({ isApproved: false })
-//       .sort({ createdAt: -1 })
-//       .populate('createdBy', 'name email phone'); // Get creator info
-
-//     return res.status(200).json({
-//       message: "Pending shops fetched successfully",
-//       data: shops,
-//       total: shops.length,
-//       error: false,
-//       success: true
-//     });
-
-//   } catch (error) {
-//     console.error("Error fetching pending shops:", error);
-//     return res.status(500).json({
-//       message: "Server error while fetching pending shops",
-//       error: true,
-//       success: false
-//     });
-//   }
-// };
-// export const getPendingShopsController = async (req, res) => {
-//   try {
-//     console.log("🛠 getPendingShopsController called");
-//     console.log("🛠 User ID from auth:", req.userId);
-
-//     // Check if user exists and is admin
-//     const user = await User.findById(req.userId);
-//     console.log("🛠 Found user:", user);
-    
-//     if (!user) {
-//       console.log("❌ User not found");
-//       return res.status(401).json({ 
-//         message: "User not found", 
-//         success: false, 
-//         error: true 
-//       });
-//     }
-
-//     console.log("🛠 User role:", user.role);
-
-//     if (user.role !== 'admin') {
-//       console.log("❌ User is not admin");
-//       return res.status(403).json({ 
-//         message: "Access denied. Admin privileges required.", 
-//         success: false, 
-//         error: true 
-//       });
-//     }
-
-//     const shops = await Shop.find({ isApproved: false })
-//       .sort({ createdAt: -1 })
-//       .populate('createdBy', 'name email phone');
-
-//     console.log("🛠 Found pending shops:", shops.length);
-
-//     return res.status(200).json({
-//       message: "Pending shops fetched successfully",
-//       data: shops,
-//       total: shops.length,
-//       error: false,
-//       success: true
-//     });
-
-//   } catch (error) {
-//     console.error("❌ Error in getPendingShopsController:", error);
-//     return res.status(500).json({
-//       message: "Server error while fetching pending shops",
-//       error: true,
-//       success: false
-//     });
-//   }
-// };
-
-// Approve or reject shop
-
-
-// Get pending shops (only for admin)
 export const getPendingShopsController = async (req, res) => {
   try {
     console.log("🛠 getPendingShopsController called");
